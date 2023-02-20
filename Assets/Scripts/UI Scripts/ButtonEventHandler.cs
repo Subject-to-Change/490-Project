@@ -5,12 +5,25 @@ using UnityEngine;
 public class ButtonEventHandler : MonoBehaviour
 {
     public GameObject next_menu;
-    public GameObject parent_menu;
+
+    private Animator parent_animator;
+    private Animator next_animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
 
+    void Awake()
+    {
+        parent_animator = gameObject.GetComponentInParent<Animator>();
+        next_animator = next_menu.GetComponent<Animator>();
+    }
+
+    void OnEnable()
+    {
+        parent_animator.SetTrigger("show");
     }
 
     // Update is called once per frame
@@ -28,30 +41,19 @@ public class ButtonEventHandler : MonoBehaviour
         Application.Quit();
     }
 
-    public void BeginTransition(char start_menu, char end_menu)
+    /// <summary>
+    /// makes the menu slide to the left and disappear and make the next
+    /// menu appear in its place.
+    /// </summary>
+    public void MenuTransition()
     {
-        SlideWidgets(start_menu);
-        FinishTransition(end_menu);
+        parent_animator.SetTrigger("show");
+        StartCoroutine("NextMenuAppear");
     }
 
-    private IEnumerator FinishTransition(char menu)
+    private IEnumerator NextMenuAppear()
     {
         yield return new WaitForSeconds(1.0f);
-        gameObject.SetActive(false);
-        next_menu.gameObject.SetActive(true);
-        SlideWidgets(menu);
-    }
-
-    private void SlideWidgets(char menu)
-    {
-        WidgetBehavior[] widgets = FindObjectsOfType<WidgetBehavior>();
-
-        for (int i = 0; i < widgets.Length; i++)
-        {
-            if (widgets[i].menu_char == menu)
-            {
-                StartCoroutine(widgets[i].SlideAnimation());
-            }
-        }
+        next_animator.SetTrigger("show");
     }
 }
