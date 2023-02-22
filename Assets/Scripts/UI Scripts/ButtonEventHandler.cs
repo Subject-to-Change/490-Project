@@ -12,7 +12,7 @@ public class ButtonEventHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     void Awake()
@@ -23,7 +23,10 @@ public class ButtonEventHandler : MonoBehaviour
 
     void OnEnable()
     {
-        parent_animator.SetTrigger("show");
+        if (gameObject.name == "Play")
+        {
+            parent_animator.SetTrigger("show");
+        }
     }
 
     // Update is called once per frame
@@ -47,8 +50,8 @@ public class ButtonEventHandler : MonoBehaviour
     /// </summary>
     public void MenuTransition()
     {
-        parent_animator.SetTrigger("show");
-        StartCoroutine("NextMenuAppear");
+            parent_animator.SetTrigger("show");
+            StartCoroutine("NextMenuAppear");
     }
 
     private IEnumerator NextMenuAppear()
