@@ -8,6 +8,7 @@ public class ButtonEventHandler : MonoBehaviour
 
     private Animator parent_animator;
     private Animator next_animator;
+    private bool cooldown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -50,13 +51,19 @@ public class ButtonEventHandler : MonoBehaviour
     /// </summary>
     public void MenuTransition()
     {
+        if (!cooldown)
+        {
             parent_animator.SetTrigger("show");
             StartCoroutine("NextMenuAppear");
+            cooldown = true;
+        }
+
     }
 
     private IEnumerator NextMenuAppear()
     {
         yield return new WaitForSeconds(1.0f);
         next_animator.SetTrigger("show");
+        cooldown = false;
     }
 }
