@@ -10,30 +10,24 @@ public class ButtonEventHandler : MonoBehaviour
     private Animator next_animator;
     private bool cooldown = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
+    /// <summary>
+    /// On awake, gets parent animator and next menu's animator.
+    /// </summary>
     void Awake()
     {
         parent_animator = gameObject.GetComponentInParent<Animator>();
         next_animator = next_menu.GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Shows the first menu, i.e., the title screen
+    /// </summary>
     void OnEnable()
     {
-        if (gameObject.name == "Play")
+        if (gameObject.CompareTag("Start Menu"))
         {
             parent_animator.SetTrigger("show");
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     /// <summary>
@@ -46,7 +40,7 @@ public class ButtonEventHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// makes the menu slide to the left and disappear and make the next
+    /// Makes the menu slide to the left and disappear and make the next
     /// menu appear in its place.
     /// </summary>
     public void MenuTransition()
@@ -60,6 +54,9 @@ public class ButtonEventHandler : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Handles the transition to the next menu.
+    /// </summary>
     private IEnumerator NextMenuAppear()
     {
         yield return new WaitForSeconds(1.0f);
