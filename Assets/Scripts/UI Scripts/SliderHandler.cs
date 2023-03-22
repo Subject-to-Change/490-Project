@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class SliderHandler : MonoBehaviour
 {
-    private Slider slider;
+    public Slider music_slider;
+    public Slider sfx_slider;
+    public AudioMixer master_mixer;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +18,6 @@ public class SliderHandler : MonoBehaviour
 
     void Awake()
     {
-        Slider slider = gameObject.GetComponent<Slider>();
         if (!PlayerPrefs.HasKey("volume"))
         {
             PlayerPrefs.SetFloat("volume", 1.0f);
@@ -24,15 +26,11 @@ public class SliderHandler : MonoBehaviour
         {
             PlayerPrefs.SetFloat("music", 1.0f);
         }
-
-        if (gameObject.name == "SFXSlider")
-        {
-            slider.value = PlayerPrefs.GetFloat("volume");
-        }
-        if (gameObject.name == "MusicSlider")
-        {
-            slider.value = PlayerPrefs.GetFloat("music");
-        }
+        
+        music_slider.value = PlayerPrefs.GetFloat("volume");
+        sfx_slider.value = PlayerPrefs.GetFloat("music");
+        
+        music_slider.onValueChanged.AddListener(SetMusic);
     }
 
     // Update is called once per frame
@@ -41,13 +39,15 @@ public class SliderHandler : MonoBehaviour
 
     }
 
-    public void SetMusic()
+    public void SetMusic(float value)
     {
-        PlayerPrefs.SetFloat("volume", slider.value);
+        PlayerPrefs.SetFloat("music", value);
+        master_mixer.SetFloat("Music", Mathf.Log10(value) * 20);
     }
 
-    public void SetSFX()
+    public void SetSFX(float value)
     {
-        PlayerPrefs.SetFloat("music", slider.value);
+        PlayerPrefs.SetFloat("volume", value);
+        master_mixer.SetFloat("SFX", Mathf.Log10(value) * 20);
     }
 }
