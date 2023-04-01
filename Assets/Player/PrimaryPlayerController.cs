@@ -55,7 +55,7 @@ public class PrimaryPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
         originalGameObject = GameObject.Find("Hero");
 
         footCollider = originalGameObject.transform.Find("footCollider").gameObject.GetComponent<Collider2D>();
