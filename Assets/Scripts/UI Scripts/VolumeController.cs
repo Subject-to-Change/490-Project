@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-public class SliderHandler : MonoBehaviour
+public class VolumeController: MonoBehaviour
 {
     public Slider music_slider;
     public Slider sfx_slider;
@@ -31,6 +31,10 @@ public class SliderHandler : MonoBehaviour
         sfx_slider.value = PlayerPrefs.GetFloat("music");
         
         music_slider.onValueChanged.AddListener(SetMusic);
+        sfx_slider.onValueChanged.AddListener(SetSFX);
+
+        SetMusic(music_slider.value);
+        SetSFX(sfx_slider.value);
     }
 
     // Update is called once per frame

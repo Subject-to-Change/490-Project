@@ -64,6 +64,4 @@ public class ButtonEventHandler : MonoBehaviour
         next_animator.SetTrigger("show");
         cooldown = false;
     }
-
-
 }
