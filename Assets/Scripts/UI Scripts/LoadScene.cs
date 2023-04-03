@@ -56,7 +56,7 @@ public class LoadScene : MonoBehaviour
 
     /// <summary>
     /// Coroutine that performs the fade out and
-    /// scen transition
+    /// scene transition
     /// </summary>
     IEnumerator FadeOutCoroutine(string scene_name)
     {
