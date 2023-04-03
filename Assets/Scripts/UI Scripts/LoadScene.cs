@@ -78,4 +78,9 @@ public class LoadScene : MonoBehaviour
     {
         SceneManager.LoadScene(scene_name);
     }
+
+    public void ResetHealth()
+    {
+        HealthAbilities.ResetHealth();
+    }
 }
