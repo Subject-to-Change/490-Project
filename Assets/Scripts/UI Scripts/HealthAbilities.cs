@@ -62,11 +62,10 @@ public class HealthAbilities : MonoBehaviour
 
     public void DamagePlayer(int iframe_timer)
     {
-        Debug.Log("message received");
         life--;
         if (life == 0)
         {
-            KillPlayer();            
+            KillPlayer(iframe_timer);            
         }
 
         DisplayHearts();
@@ -83,9 +82,11 @@ public class HealthAbilities : MonoBehaviour
         
     }
 
-    public void KillPlayer()
+    public void KillPlayer(int iframe_timer)
     {
         onDeath.Invoke();
+        hero.SendMessage("ToggleIFrame");
+        StartCoroutine(IFrameCooldown(iframe_timer));
     }
 
     private void GameOver()

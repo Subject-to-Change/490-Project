@@ -17,7 +17,6 @@ public class DestroyBall : MonoBehaviour
     {
         if (other.gameObject.name == "Ball")
         {
-            Debug.Log("new object");
             Destroy(other.gameObject);
         }
     }

@@ -27,7 +27,7 @@ public class DamageController : MonoBehaviour
             }
             else if (other.gameObject.CompareTag(damage_tag))
             {
-                Debug.Log("collision detected");
+
                 hud_controller.SendMessage("DamagePlayer", iframe_cooldown);
             }
         }

@@ -20,7 +20,6 @@ public class StartRollingBall : MonoBehaviour
     {
         if (other.gameObject.name == "Hero")
         {
-            Debug.Log("new object");
             ball_rb.WakeUp();
         }
     }
