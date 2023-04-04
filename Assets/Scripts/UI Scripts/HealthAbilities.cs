@@ -14,7 +14,7 @@ public class HealthAbilities : MonoBehaviour
     private GameObject respawn_marker;
 
     private static readonly int max_lives = 3;
-    private static int life = max_lives;
+    private int life = max_lives;
 
     private void Start()
     {
@@ -93,9 +93,10 @@ public class HealthAbilities : MonoBehaviour
         onDeath.Invoke();
     }
 
-    public static void ResetHealth()
+    public void ResetHealth()
     {
         life = max_lives;
+        DisplayHearts();
     }
 
 }

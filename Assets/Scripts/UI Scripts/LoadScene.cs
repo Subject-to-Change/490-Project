@@ -81,6 +81,6 @@ public class LoadScene : MonoBehaviour
 
     public void ResetHealth()
     {
-        HealthAbilities.ResetHealth();
+        //HealthAbilities.ResetHealth();
     }
 }
