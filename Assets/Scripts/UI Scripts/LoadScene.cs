@@ -56,7 +56,7 @@ public class LoadScene : MonoBehaviour
 
     /// <summary>
     /// Coroutine that performs the fade out and
-    /// scen transition
+    /// scene transition
     /// </summary>
     IEnumerator FadeOutCoroutine(string scene_name)
     {
@@ -77,5 +77,10 @@ public class LoadScene : MonoBehaviour
     public void LoadNewScene(string scene_name)
     {
         SceneManager.LoadScene(scene_name);
+    }
+
+    public void ResetHealth()
+    {
+        HealthAbilities.ResetHealth();
     }
 }
