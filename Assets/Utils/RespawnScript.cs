@@ -52,8 +52,8 @@ public class RespawnScript : MonoBehaviour
         //Show the player object
         player.transform.Find("characterRootNode").gameObject.SetActive(true);
 
-        //Heal player to max health
-        playerHealth.healToMax();
+        //Heal player to max health (Now handled elsewhere with UI code)
+        //playerHealth.healToMax();
 
         //Stop coroutine
         yield break;
