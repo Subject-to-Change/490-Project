@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class HealthAbilities : MonoBehaviour
 {
+    public UnityEngine.Events.UnityEvent onDeath;
+
     private Icons hud_icons;
     private Abilities hud_abilities;
     private GameObject hero;
     private GameObject scene_transition_controller;
+    private GameObject respawn_marker;
 
     private static readonly int max_lives = 3;
     private static int life = max_lives;
@@ -26,6 +29,7 @@ public class HealthAbilities : MonoBehaviour
         hud_abilities = SaveLoad.LoadAbilityData();
         hero = GameObject.Find("Hero");
         scene_transition_controller = GameObject.Find("SceneTransitionController");
+        respawn_marker = GameObject.Find("RespawnMarker");
 
         // display appropriate hearts
         DisplayHearts();
@@ -62,7 +66,7 @@ public class HealthAbilities : MonoBehaviour
         life--;
         if (life == 0)
         {
-            GameOver();
+            KillPlayer();            
         }
 
         DisplayHearts();
@@ -81,12 +85,12 @@ public class HealthAbilities : MonoBehaviour
 
     public void KillPlayer()
     {
-
+        onDeath.Invoke();
     }
 
     private void GameOver()
     {
-        scene_transition_controller.SendMessage("fade_out_scene", "Title");
+        onDeath.Invoke();
     }
 
     public static void ResetHealth()
