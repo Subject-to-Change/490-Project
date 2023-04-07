@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthAbilities : MonoBehaviour
+public class HUDManager : MonoBehaviour
 {
-    public UnityEngine.Events.UnityEvent onDeath;
+
 
     private Icons hud_icons;
     private Abilities hud_abilities;
     private GameObject hero;
     private GameObject scene_transition_controller;
     private GameObject respawn_marker;
-
-    private static readonly int max_lives = 3;
-    private int life = max_lives;
 
     private void Start()
     {
@@ -45,11 +42,12 @@ public class HealthAbilities : MonoBehaviour
         }
     }
 
-    private void DisplayHearts()
+    public void DisplayHearts()
     {
-        for (int i = 0; i < max_lives; i++)
+        int num_lives = HealthManager.GetHealth();
+        for (int i = 0; i < HealthManager.MAX_LIVES; i++)
         {
-            if (i < life)
+            if (i < num_lives)
             {
                 hud_icons.display_heart(i);
             }
@@ -59,47 +57,6 @@ public class HealthAbilities : MonoBehaviour
             }
         }
     }
-
-    public void DamagePlayer(int iframe_timer)
-    {
-        life--;
-        if (life == 0)
-        {
-            KillPlayer(iframe_timer);            
-        }
-
-        DisplayHearts();
-        hero.SendMessage("ToggleIFrame");
-        StartCoroutine(IFrameCooldown(iframe_timer));
-    }
-
-    private IEnumerator IFrameCooldown(int iframe_timer)
-    {
-        yield return new WaitForSeconds(iframe_timer);
-
-        hero.SendMessage("ToggleIFrame");
-
-        
-    }
-
-    public void KillPlayer(int iframe_timer)
-    {
-        onDeath.Invoke();
-        hero.SendMessage("ToggleIFrame");
-        StartCoroutine(IFrameCooldown(iframe_timer));
-    }
-
-    private void GameOver()
-    {
-        onDeath.Invoke();
-    }
-
-    public void ResetHealth()
-    {
-        life = max_lives;
-        DisplayHearts();
-    }
-
 }
 
 public class Icons

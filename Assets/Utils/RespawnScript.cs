@@ -7,7 +7,7 @@ public class RespawnScript : MonoBehaviour
 
     private GameObject player;
     //private PlayerHealth playerHealth;
-    private HealthAbilities healthAbilities;
+    private HealthManager healthManager;
 
     // Start is called before the first frame update
     void Start()
@@ -17,8 +17,8 @@ public class RespawnScript : MonoBehaviour
             Debug.LogError("RespawnScript could not find player GameObject, looking for \"Player\" tag.");
         //playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         //playerHealth.onDeath.AddListener(startRespawnCoroutine);
-        healthAbilities = GameObject.Find("HealthAbilitiesSystem").GetComponent<HealthAbilities>();
-        healthAbilities.onDeath.AddListener(startRespawnCoroutine);
+        healthManager = GameObject.Find("HealthSystem").GetComponent<HealthManager>();
+        healthManager.onDeath.AddListener(startRespawnCoroutine);
 
     }
 
@@ -57,7 +57,7 @@ public class RespawnScript : MonoBehaviour
         player.transform.Find("characterRootNode").gameObject.SetActive(true);
 
         //Heal player to max health (Now handled elsewhere with UI code)
-        healthAbilities.ResetHealth();
+        healthManager.ResetHealth();
 
         //Stop coroutine
         yield break;

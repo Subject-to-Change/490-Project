@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class DamageController : MonoBehaviour
 {
-    public int iframe_cooldown = 2;
 
-    private GameObject hud_controller;
+    private HealthManager health_manager;
     private string instadeath_tag = "Death";
     private string damage_tag = "Damage";
     private bool iframe = false;
 
     private void Start()
     {
-        hud_controller = GameObject.Find("HealthAbilitiesSystem");
+        health_manager = GameObject.Find("HealthSystem").GetComponent<HealthManager>();
 
     }
 
@@ -23,12 +22,12 @@ public class DamageController : MonoBehaviour
         {
             if (other.gameObject.CompareTag(instadeath_tag))
             {
-                hud_controller.SendMessage("KillPlayer", iframe_cooldown);
+                health_manager.KillPlayer();
             }
             else if (other.gameObject.CompareTag(damage_tag))
             {
 
-                hud_controller.SendMessage("DamagePlayer", iframe_cooldown);
+                health_manager.DamagePlayer();
             }
         }
 
