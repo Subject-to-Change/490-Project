@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour
 {
-
-
     private Icons hud_icons;
     private Abilities hud_abilities;
     private GameObject hero;
@@ -23,7 +21,7 @@ public class HUDManager : MonoBehaviour
 
         // assign references
         hud_icons = new Icons(hearts, hourglass);
-        hud_abilities = SaveLoad.LoadAbilityData();
+        hud_abilities = Abilities.LoadAbilityData();
         hero = GameObject.Find("Hero");
         scene_transition_controller = GameObject.Find("SceneTransitionController");
         respawn_marker = GameObject.Find("RespawnMarker");
@@ -32,7 +30,7 @@ public class HUDManager : MonoBehaviour
         DisplayHearts();
 
         // display appropriate abilities
-        if (hud_abilities.get_time_warp())
+        if (hud_abilities.time_warp)
         {
             hud_icons.display_hourglass();
         }
@@ -94,9 +92,16 @@ public class Icons
 [System.Serializable]
 public class Abilities
 {
-    private bool time_warp;
-    private bool double_jump;
-    private bool slide;
+    public bool time_warp;
+    public bool double_jump;
+    public bool slide;
+
+    public Abilities()
+    {
+        this.time_warp = false;
+        this.double_jump = false;
+        this.slide = false;
+    }
 
     public Abilities(bool time_warp, bool double_jump, bool slide)
     {
@@ -105,33 +110,18 @@ public class Abilities
         this.slide = slide;
     }
 
-    public void set_time_warp(bool new_value)
+    public static void SaveAbilityData(Abilities data)
     {
-        this.time_warp = new_value;
+        SaveLoad.SaveData<Abilities>(data, GetPath());
     }
 
-    public void set_double_jump(bool new_value)
+    public static Abilities LoadAbilityData()
     {
-        this.double_jump = new_value;
+        return SaveLoad.LoadAbilityData<Abilities>(GetPath());
     }
 
-    public void set_slide(bool new_value)
+    private static string GetPath()
     {
-        this.slide = new_value;
-    }
-
-    public bool get_time_warp()
-    {
-        return this.time_warp;
-    }
-
-    public bool get_double_jump()
-    {
-        return this.double_jump;
-    }
-
-    public bool get_slide()
-    {
-        return this.slide;
+        return Application.persistentDataPath + "/abilitydata.json";
     }
 }

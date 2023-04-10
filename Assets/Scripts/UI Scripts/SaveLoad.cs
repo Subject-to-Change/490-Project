@@ -6,24 +6,22 @@ using Newtonsoft.Json;
 
 public class SaveLoad : MonoBehaviour
 {
-    private static string ability_file = Application.persistentDataPath + "/abilitydata.json";
-
-    public static void SaveAbilityData(Abilities data)
+    public static void SaveData<T>(T data, string path)
     {
         string json = JsonConvert.SerializeObject(data);
-        File.WriteAllText(ability_file, json);
+        File.WriteAllText(path, json);
     }
 
-    public static Abilities LoadAbilityData() {
-        Abilities data;
+    public static T LoadAbilityData<T>(string path) where T : new() {
+        T data;
         
-        if (File.Exists(ability_file))
+        if (File.Exists(path))
         {
-            string json = File.ReadAllText(ability_file);
-            data = JsonConvert.DeserializeObject<Abilities>(json);
+            string json = File.ReadAllText(path);
+            data = JsonConvert.DeserializeObject<T>(json);
         } else
         {
-            data = new Abilities(false, false, false);
+            data = new T();
         }
 
         return data;
