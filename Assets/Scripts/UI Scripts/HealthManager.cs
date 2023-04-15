@@ -64,4 +64,9 @@ public class HealthManager : MonoBehaviour
         life = MAX_LIVES;
         hud_manager.DisplayHearts();
     }
+
+    public static void ResetHealthStatic()
+    {
+        life = MAX_LIVES;
+    }
 }

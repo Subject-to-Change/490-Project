@@ -13,7 +13,7 @@ public class LoadScene : MonoBehaviour
     void Start()
     {
         fade_image.color = new Color(0f, 0f, 0f, 1f);
-        fade_in_scene();
+        fade_in();
     }
 
     // Update is called once per frame
@@ -23,11 +23,21 @@ public class LoadScene : MonoBehaviour
     }
 
     /// <summary>
-    /// Calls coroutine for fading into a scene.
+    /// Calls coroutine for fading in. This is used for scene
+    /// transitions and time warping.
     /// </summary>
-    public void fade_in_scene()
+    public void fade_in()
     {
         StartCoroutine(FadeInCoroutine());
+    }
+
+    /// <summary>
+    /// Calls coroutine for fading out. This is used for time
+    /// warping
+    /// </summary>
+    public void fade_out()
+    {
+        StartCoroutine(FadeOutCoroutine());
     }
 
     /// <summary>
@@ -44,21 +54,23 @@ public class LoadScene : MonoBehaviour
             fade_image.color = new Color(0f, 0f, 0f, alpha);
             yield return null;
         }
+        Time.timeScale = 1f;
     }
 
     /// <summary>
-    /// Calls coroutine for fading out of scene.
+    /// Calls coroutine for fading out of scene and transitioning between
+    /// scenes.
     /// </summary>
     public void fade_out_scene(string scene_name)
     {
-        StartCoroutine(FadeOutCoroutine(scene_name));
+        StartCoroutine(FadeOutTransitionCoroutine(scene_name));
     }
 
     /// <summary>
     /// Coroutine that performs the fade out and
     /// scene transition
     /// </summary>
-    IEnumerator FadeOutCoroutine(string scene_name)
+    IEnumerator FadeOutTransitionCoroutine(string scene_name)
     {
         float timer = 0f;
 
@@ -74,6 +86,24 @@ public class LoadScene : MonoBehaviour
         SceneManager.LoadScene(scene_name);
     }
 
+    /// <summary>
+    /// Coroutine that performs only a fade to black
+    /// </summary>
+    IEnumerator FadeOutCoroutine()
+    {
+        float timer = 0f;
+
+        while (timer < fade_duration)
+        {
+            timer += Time.unscaledDeltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, timer / fade_duration);
+            fade_image.color = new Color(0f, 0f, 0f, alpha);
+            yield return null;
+        }
+
+        Time.timeScale = 1f;
+    }
+
     public void LoadNewScene(string scene_name)
     {
         SceneManager.LoadScene(scene_name);
@@ -81,6 +111,6 @@ public class LoadScene : MonoBehaviour
 
     public void ResetHealth()
     {
-        //HealthAbilities.ResetHealth();
+        HealthManager.ResetHealthStatic();
     }
 }
