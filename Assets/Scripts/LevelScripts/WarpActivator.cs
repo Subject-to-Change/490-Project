@@ -5,44 +5,32 @@ using UnityEngine;
 public class WarpActivator : MonoBehaviour
 {
     public int activated;
-    Vector3 newPosition;
+    public Vector3 newPosition;
     public GameObject player;
-
+    public LoadScene fadeToBlack;
+    public int fadeToBlackTime;
     // Start is called before the first frame update
     void Start()
     {
         activated = 0;
         player = GameObject.Find("Hero");
-        newPosition.x = 0f;
-        newPosition.y = 0f;
-        newPosition.z = 0f;
+        fadeToBlack = GameObject.Find("SceneTransitionController").GetComponent<LoadScene>();
+        fadeToBlack.fade_duration = fadeToBlackTime;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //todo: replacer with global variable name
-        if(activated == 1 && Input.GetKeyDown("w"))
-        {
 
+
+    }
+
+    public void teleportPlayer()
+    {
+        fadeToBlack.fade_in();
             player.transform.position = newPosition;
-
-        }
-
+        fadeToBlack.fade_out();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-       
-        activated = 1;
-
-    }
-
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        activated = 0;
-
-    }
 
 }
