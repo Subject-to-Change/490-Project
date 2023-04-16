@@ -159,7 +159,6 @@ GameObject:
   - component: {fileID: 4662275490285437362}
   - component: {fileID: 4662275490285437360}
   - component: {fileID: 4662275490285437361}
-  - component: {fileID: 6702164948173543863}
   - component: {fileID: 1796912023136954208}
   - component: {fileID: 1796211625280177193}
   m_Layer: 0
@@ -247,26 +246,6 @@ MonoBehaviour:
   leftRight: {fileID: 2766028236194688902, guid: 2e4e6396690d6e3479cc200b2550dba5,
     type: 3}
   crouch: {fileID: -3202863596399068070, guid: 2e4e6396690d6e3479cc200b2550dba5, type: 3}
---- !u!95 &6702164948173543863
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4662275490285437365}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 441942176ee9a724b9afe936d1d03496, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!50 &1796912023136954208
 Rigidbody2D:
   serializedVersion: 4
@@ -300,7 +279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8076225cc3735d549872ddbe0e10fe82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iframe_cooldown: 2
 --- !u!1 &4662275490403999695
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,8 +522,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 317a56890b5c8e74ab1d492a2c7fb608, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 235a27caf24191246aed3290e7b5a441, type: 2}
+    - target: {fileID: 9500000, guid: 317a56890b5c8e74ab1d492a2c7fb608, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 317a56890b5c8e74ab1d492a2c7fb608, type: 3}
+--- !u!1 &6806641625527454289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100122, guid: 317a56890b5c8e74ab1d492a2c7fb608,
+    type: 3}
+  m_PrefabInstance: {fileID: 6806641625527356747}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4039572774629385461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6806641625527454289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae99a36a74034f439e26a7fa8c621e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6806641625527490481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400122, guid: 317a56890b5c8e74ab1d492a2c7fb608,

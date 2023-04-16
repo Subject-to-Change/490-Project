@@ -45,17 +45,26 @@ public class PrimaryPlayerController : MonoBehaviour
 
     GameObject originalGameObject;
 
+    private PlayerAnimationManager playerAnimationManager;
+
     Collider2D footCollider;  //Collider to check if player is touching the ground
     Collider2D primaryCollider;  //Collider used for interaction when not crouched
     Collider2D unCrouchTestCollider;  //Collider to test if the space above a crouched player is safe to uncrouch
     Collider2D crouchedCollider;  //Collider used for interaction while crouching
     GameObject characterRootNode;
     
+    void OnDisable()
+    {
+        jump.ToInputAction().started -= onJumpKeyDown;
+        crouch.ToInputAction().started -= onCrouchKeyDown;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         
+        Debug.Log("Creating new player object!");
+
         originalGameObject = GameObject.Find("Hero");
 
         footCollider = originalGameObject.transform.Find("footCollider").gameObject.GetComponent<Collider2D>();
@@ -64,11 +73,15 @@ public class PrimaryPlayerController : MonoBehaviour
         crouchedCollider = originalGameObject.transform.Find("crouchedCollider").gameObject.GetComponent<Collider2D>();
         characterRootNode = originalGameObject.transform.Find("characterRootNode").gameObject;
 
+        playerAnimationManager = gameObject.GetComponentInChildren<PlayerAnimationManager>();
+
         Debug.Assert(footCollider != null);
         Debug.Assert(primaryCollider != null);
         Debug.Assert(unCrouchTestCollider != null);
         Debug.Assert(crouchedCollider != null);
         Debug.Assert(characterRootNode != null);
+
+        Debug.Assert(playerAnimationManager != null);
 
         leftRight.ToInputAction().Enable();
 
@@ -103,8 +116,10 @@ public class PrimaryPlayerController : MonoBehaviour
     void FixedUpdate() {
 
         //Check is player is on ground to reset double (or more) jump
+        bool inAir = true;
         if(checkGroundCollision()) {
             airJumps = maxAirJumps;
+            inAir = false;
         }
 
         //Handle glide behavior by dampening vertical velocity
@@ -171,7 +186,7 @@ public class PrimaryPlayerController : MonoBehaviour
                                                     normalPassiveDeceleration*Time.fixedDeltaTime
                                                     );
                 }
-            } else {  // Player wants to speed up, us normal acceleration
+            } else {  // Player wants to speed up, use normal acceleration
                 if(isCrouching) {
                     clampedCorrectionalAcceleration = Mathf.Clamp(correctionalAcceleration,
                                                     -crouchAcceleration*Time.fixedDeltaTime,
@@ -189,7 +204,34 @@ public class PrimaryPlayerController : MonoBehaviour
         //TODO: Check for dash status here
         body.velocity = new Vector2(body.velocity.x + clampedCorrectionalAcceleration, body.velocity.y);
 
-        //Debug.Log(clampedCorrectionalAcceleration);
+        
+        //Determine and set animation
+        if(inAir) {
+            playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.FALL);
+        } else {
+            if(body.velocity.y >= jumpVelocity*0.75) {
+                //Do nothing, this is likely the beginning of a jump
+            } 
+            else if(Mathf.Abs(currentHorizontalVelocity)>=crouchMaxSpeed/2 || Mathf.Abs(targetHorizontalVelocity)>0.2f) {  //If the player is moving or trying to move
+                //Player is moving or trying to move
+                if(isCrouching) {
+                    if(Mathf.Abs(currentHorizontalVelocity) >= 1.1*crouchMaxSpeed) {
+                        playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.SLIDE);
+                    } else {
+                        playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.CROUCH_RUN);
+                    }
+                } else {
+                    playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.RUNNING);
+                }
+            } else {
+                //Player is standing still
+                if(isCrouching) {
+                    playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.CROUCH);
+                } else {
+                    playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.IDLE);
+                }
+            }
+        }
 
         //Check direction, apply to local flag
         if(Mathf.Abs(currentHorizontalVelocity)>=crouchMaxSpeed/2) {
@@ -220,8 +262,10 @@ public class PrimaryPlayerController : MonoBehaviour
     void onJumpKeyDown(InputAction.CallbackContext context) {
         if(checkGroundCollision()) {
             body.velocity = new Vector2(body.velocity.x, jumpVelocity);
+            playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.JUMP);
         } else if(airJumps > 0) {
             body.velocity = new Vector2(body.velocity.x, jumpVelocity);
+            playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.JUMP);
             airJumps--;
         }
     }
