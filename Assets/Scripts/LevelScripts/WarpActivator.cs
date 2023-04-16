@@ -8,14 +8,14 @@ public class WarpActivator : MonoBehaviour
     public Vector3 newPosition;
     public GameObject player;
     public LoadScene fadeToBlack;
-    public int fadeToBlackTime;
+    public float fadeToBlackTimer;
     // Start is called before the first frame update
     void Start()
     {
         activated = 0;
         player = GameObject.Find("Hero");
         fadeToBlack = GameObject.Find("SceneTransitionController").GetComponent<LoadScene>();
-        fadeToBlack.fade_duration = fadeToBlackTime;
+        fadeToBlackTimer = fadeToBlack.fade_duration;
     }
 
     // Update is called once per frame
@@ -25,11 +25,20 @@ public class WarpActivator : MonoBehaviour
 
     }
 
+    public IEnumerator waiter()
+    {
+
+        yield return new WaitForSeconds(fadeToBlackTimer);
+        player.transform.position = newPosition;
+        fadeToBlack.fade_in();
+    }
+
     public void teleportPlayer()
     {
-        fadeToBlack.fade_in();
-            player.transform.position = newPosition;
         fadeToBlack.fade_out();
+        StartCoroutine(waiter());
+
+
     }
 
 
