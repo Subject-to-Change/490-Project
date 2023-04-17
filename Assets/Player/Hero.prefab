@@ -300,7 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8076225cc3735d549872ddbe0e10fe82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iframe_cooldown: 2
 --- !u!1 &4662275490403999695
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +408,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
