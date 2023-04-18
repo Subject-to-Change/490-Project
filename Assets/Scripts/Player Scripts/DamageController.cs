@@ -33,6 +33,19 @@ public class DamageController : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(!iframe)
+        {
+            if (other.gameObject.CompareTag(damage_tag))
+            {
+
+                health_manager.DamagePlayer();
+            }
+        }
+
+    }
+
     public void ToggleIFrame()
     {
         iframe = !iframe;
