@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class ButtonEventHandler : MonoBehaviour
 {
     public GameObject next_menu;
+    public GameObject default_component;
 
     private Animator parent_animator;
     private Animator next_animator;
@@ -28,6 +30,8 @@ public class ButtonEventHandler : MonoBehaviour
         if (gameObject.CompareTag("Start Menu"))
         {
             parent_animator.SetTrigger("show");
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(GameObject.Find("Play"));
         }
     }
 
@@ -62,6 +66,8 @@ public class ButtonEventHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         next_animator.SetTrigger("show");
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(default_component);
         cooldown = false;
     }
 }
