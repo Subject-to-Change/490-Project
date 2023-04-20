@@ -4,11 +4,32 @@ using UnityEngine;
 
 public class DestroyLog : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    public ParticleSystem explosion;
+
+    private Animator this_anim;
+
+    private void Start()
     {
-        if (other.gameObject.name == "DestroyLog")
+        Invoke("ShrinkAndBlow", 8f);
+        this_anim = this.GetComponent<Animator>();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            ShrinkAndBlow();
         }
+    }
+
+    private void ShrinkAndBlow()
+    {
+        this_anim.SetTrigger("shrink");
+        explosion.Emit(10);
+    }
+
+    public void DeleteSelf()
+    {
+        Destroy(gameObject);
     }
 }
