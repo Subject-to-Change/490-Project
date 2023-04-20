@@ -32,6 +32,9 @@ public class PuzzleControllerScript : MonoBehaviour
         {
 
             Debug.Log("Solution reached");
+            //add finish code before clearing array
+            Array.Clear(order,0,order.Length);
+            i = 0;
 
         }
          else if (order[3] != 0)
