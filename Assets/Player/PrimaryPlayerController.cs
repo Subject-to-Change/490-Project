@@ -17,20 +17,23 @@ public class PrimaryPlayerController : MonoBehaviour
     public float jumpReleaseGravityScale = 4;
     public float jumpVelocity = 10;
     public int maxAirJumps = 1;
+    public bool multiJumpEnabled = false;
 
     public float crouchMaxSpeed = 2;
     public float crouchAcceleration = 16;
     public float crouchPassiveDeceleration = 8;
     public float crouchSlideDeceleration = 12;
     public float crouchSlideBoostSpeed = 10;
+    public bool canSlide = true;
 
-    public bool glideEnabled = true;
+    public bool glideEnabled = false;
     public float maxGlideFallSpeed = 2;
     public float glideDecceleration = 8;
 
     private bool facingRight = true;
     private int airJumps = 0;
     private bool isCrouching = false;
+
 
 
 
@@ -63,7 +66,7 @@ public class PrimaryPlayerController : MonoBehaviour
     void Start()
     {
         
-        Debug.Log("Creating new player object!");
+        //Debug.Log("Creating new player object!");
 
         originalGameObject = GameObject.Find("Hero");
 
@@ -263,7 +266,7 @@ public class PrimaryPlayerController : MonoBehaviour
         if(checkGroundCollision()) {
             body.velocity = new Vector2(body.velocity.x, jumpVelocity);
             playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.JUMP);
-        } else if(airJumps > 0) {
+        } else if(airJumps > 0 && multiJumpEnabled) {
             body.velocity = new Vector2(body.velocity.x, jumpVelocity);
             playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.JUMP);
             airJumps--;
@@ -271,7 +274,7 @@ public class PrimaryPlayerController : MonoBehaviour
     }
 
     void onCrouchKeyDown(InputAction.CallbackContext context) {
-        if(Mathf.Abs(body.velocity.x) >= normalSpeed*0.75 && checkGroundCollision()) {
+        if(Mathf.Abs(body.velocity.x) >= normalSpeed*0.75 && canSlide && checkGroundCollision() ) {
             body.velocity = new Vector2(body.velocity.x>0 ? crouchSlideBoostSpeed : -crouchSlideBoostSpeed,body.velocity.y);
         }
     }

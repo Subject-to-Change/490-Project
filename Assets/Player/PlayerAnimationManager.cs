@@ -38,7 +38,7 @@ public class PlayerAnimationManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(animation);
+        //Debug.Log(animation);
 
         if(animation.Equals(animationNames.JUMP)) {
             animator.ResetTrigger(activeAnimationTrigger);

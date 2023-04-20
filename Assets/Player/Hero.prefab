@@ -234,12 +234,13 @@ MonoBehaviour:
   jumpReleaseGravityScale: 4
   jumpVelocity: 10
   maxAirJumps: 1
+  multijumpsEnabled: 0
   crouchMaxSpeed: 2
   crouchAcceleration: 16
   crouchPassiveDeceleration: 8
   crouchSlideDeceleration: 20
   crouchSlideBoostSpeed: 16
-  glideEnabled: 1
+  glideEnabled: 0
   maxGlideFallSpeed: 4
   glideDecceleration: 8
   jump: {fileID: 7215602353195086489, guid: 2e4e6396690d6e3479cc200b2550dba5, type: 3}
@@ -265,7 +266,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &1796211625280177193
 MonoBehaviour:
