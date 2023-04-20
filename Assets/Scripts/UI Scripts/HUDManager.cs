@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HUDManager : MonoBehaviour
 {
     private Icons hud_icons;
-    private Abilities hud_abilities;
+    public Abilities hud_abilities;
     private GameObject hero;
     private GameObject scene_transition_controller;
     private GameObject respawn_marker;
@@ -23,6 +23,7 @@ public class HUDManager : MonoBehaviour
         hud_icons = new Icons(hearts, hourglass);
         hud_abilities = Abilities.LoadAbilityData();
         hero = GameObject.Find("Hero");
+        hud_abilities.connectToPlayer(hero.GetComponent<PrimaryPlayerController>());
         scene_transition_controller = GameObject.Find("SceneTransitionController");
         respawn_marker = GameObject.Find("RespawnMarker");
 
@@ -92,9 +93,40 @@ public class Icons
 [System.Serializable]
 public class Abilities
 {
+
+
+    private bool _time_warp;
+    private bool _double_jump;
+    private bool _slide;
+    private bool _glide;
+
     public bool time_warp;
-    public bool double_jump;
-    public bool slide;
+    [SerializeField]
+    public bool double_jump{
+        get {return _double_jump;}
+        set {
+            if(playerController) playerController.multiJumpEnabled = value;
+            _double_jump = value;
+        }
+    }
+    [SerializeField]
+    public bool slide{
+        get {return _slide;}
+        set {
+            if(playerController) playerController.canSlide = value;
+            _slide = value;
+        }
+    }
+    [SerializeField]
+    public bool glide{
+        get {return _glide;}
+        set {
+            if(playerController) playerController.glideEnabled = value;
+            _glide = value;
+        }
+    }
+
+    private PrimaryPlayerController playerController; 
 
     public Abilities()
     {
@@ -108,6 +140,16 @@ public class Abilities
         this.time_warp = time_warp;
         this.double_jump = double_jump;
         this.slide = slide;
+    }
+
+    public void connectToPlayer(PrimaryPlayerController playerController) {
+        this.playerController = playerController;
+
+        //Resave all values so they are set to the player controller
+        glide = glide;
+        slide = slide;
+        double_jump = double_jump;
+        //time_warp = time_warp;
     }
 
     public static void SaveAbilityData(Abilities data)
