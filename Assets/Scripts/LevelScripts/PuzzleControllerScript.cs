@@ -11,6 +11,10 @@ public class PuzzleControllerScript : MonoBehaviour
     int[] solution;
     int i;
     bool solved;
+    public GameObject objectActive;
+    public GameObject objectActive2;
+    public GameObject objectActive3;
+    public GameObject objectActive4;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +37,13 @@ public class PuzzleControllerScript : MonoBehaviour
 
             Debug.Log("Solution reached");
             //add finish code before clearing array
+            if (!objectActive.activeSelf)
+            {
+                objectActive.SetActive(true);
+                objectActive2.SetActive(true);
+                objectActive3.SetActive(true);
+                objectActive4.SetActive(true);
+            }
             Array.Clear(order,0,order.Length);
             i = 0;
 
