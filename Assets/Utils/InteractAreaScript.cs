@@ -52,6 +52,10 @@ public class InteractAreaScript : MonoBehaviour
         activate.ToInputAction().started += onActivateKeyDown;
     }
 
+    public void OnDisable() {
+        activate.ToInputAction().started -= onActivateKeyDown;
+    }
+
     // Physics update loop
     void FixedUpdate()
     {

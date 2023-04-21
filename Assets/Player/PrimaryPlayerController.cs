@@ -35,7 +35,8 @@ public class PrimaryPlayerController : MonoBehaviour
     private bool isCrouching = false;
 
 
-
+    private float prevFrameVelocity = 0f;
+    private bool prevFrameGroundCollision = true;
 
 
     public UnityEngine.InputSystem.InputActionReference jump;
@@ -55,6 +56,7 @@ public class PrimaryPlayerController : MonoBehaviour
     Collider2D unCrouchTestCollider;  //Collider to test if the space above a crouched player is safe to uncrouch
     Collider2D crouchedCollider;  //Collider used for interaction while crouching
     GameObject characterRootNode;
+    PlayerSoundHandler playerSoundHandler;
     
     void OnDisable()
     {
@@ -96,6 +98,9 @@ public class PrimaryPlayerController : MonoBehaviour
         crouch.ToInputAction().Enable();
         crouch.ToInputAction().started += onCrouchKeyDown;
 
+        playerSoundHandler = gameObject.GetComponent<PlayerSoundHandler>();
+        Debug.Assert(playerSoundHandler);
+
     }
 
     // Update is called once per frame
@@ -126,7 +131,7 @@ public class PrimaryPlayerController : MonoBehaviour
         }
 
         //Handle glide behavior by dampening vertical velocity
-        if(airJumps==0 && glideEnabled && body.velocity.y < -maxGlideFallSpeed && jump.ToInputAction().ReadValue<float>()>0.5) {
+        if(glideEnabled && body.velocity.y < -maxGlideFallSpeed && jump.ToInputAction().ReadValue<float>()>0.5) {
             float correctionalVerticalAcceleration = -maxGlideFallSpeed - body.velocity.y;
             float clampedCorrectionalVerticalAcceleration = Mathf.Max(-maxGlideFallSpeed, correctionalVerticalAcceleration);
             body.velocity = new Vector2(body.velocity.x, body.velocity.y + clampedCorrectionalVerticalAcceleration);
@@ -236,6 +241,16 @@ public class PrimaryPlayerController : MonoBehaviour
             }
         }
 
+        //Send falling info to sound handler
+        playerSoundHandler.updateFallVelocity(-body.velocity.y/(jumpVelocity*8));
+
+        //Check for landing, play sound
+        if(!inAir && !prevFrameGroundCollision && prevFrameVelocity<-jumpVelocity/8) {
+            playerSoundHandler.playLand();
+        }
+        prevFrameGroundCollision = !inAir;
+        prevFrameVelocity = body.velocity.y;
+
         //Check direction, apply to local flag
         if(Mathf.Abs(currentHorizontalVelocity)>=crouchMaxSpeed/2) {
             facingRight = currentHorizontalVelocity > 0;
@@ -266,9 +281,11 @@ public class PrimaryPlayerController : MonoBehaviour
         if(checkGroundCollision()) {
             body.velocity = new Vector2(body.velocity.x, jumpVelocity);
             playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.JUMP);
+            playerSoundHandler.playJump();
         } else if(airJumps > 0 && multiJumpEnabled) {
             body.velocity = new Vector2(body.velocity.x, jumpVelocity);
             playerAnimationManager.setMovementAnimation(PlayerAnimationManager.animationNames.JUMP);
+            playerSoundHandler.playDoubleJump();
             airJumps--;
         }
     }
