@@ -43,6 +43,7 @@ public class MechanicPickup : MonoBehaviour
                 hud.hud_abilities.time_warp = true;
                 break;
         }
+        hud.UpdateAbilitiesDisplay();
         gameObject.SetActive(false);
     }
 }

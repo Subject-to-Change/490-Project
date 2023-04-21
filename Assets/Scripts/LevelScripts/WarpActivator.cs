@@ -9,6 +9,8 @@ public class WarpActivator : MonoBehaviour
     public GameObject player;
     public LoadScene fadeToBlack;
     public float fadeToBlackTimer;
+
+    private HUDManager hud;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,7 @@ public class WarpActivator : MonoBehaviour
         player = GameObject.Find("Hero");
         fadeToBlack = GameObject.Find("SceneTransitionController").GetComponent<LoadScene>();
         fadeToBlackTimer = fadeToBlack.fade_duration;
+        hud = GameObject.Find("HUDSystem").GetComponent<HUDManager>();
     }
 
     // Update is called once per frame
@@ -35,10 +38,11 @@ public class WarpActivator : MonoBehaviour
 
     public void teleportPlayer()
     {
-        fadeToBlack.fade_out();
+        if (hud.hud_abilities.time_warp)
+        {
+            fadeToBlack.fade_out();
         StartCoroutine(waiter());
-
-
+        }
     }
 
 

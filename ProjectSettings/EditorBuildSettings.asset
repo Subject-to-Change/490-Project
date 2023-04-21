@@ -20,4 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/490FSection.unity
     guid: 33c9cd25241f5ac4da856e0cf16d2f09
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 60ed162de69823e45964ee653b04629c,
+      type: 2}

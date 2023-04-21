@@ -14,8 +14,7 @@ public class Gameover : MonoBehaviour
     {
         scene_loader = GameObject.Find("SceneTransitionController").GetComponent<LoadScene>();
         appear = GameObject.Find("Gameover Screen").GetComponent<Animator>();
-        gameover_button = GameObject.Find("Gameover Button");
-    }
+        gameover_button = GameObject.Find("Gameover Button");    }
 
     public void end_game()
     {
