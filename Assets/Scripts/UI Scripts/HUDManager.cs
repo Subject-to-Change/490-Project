@@ -56,6 +56,14 @@ public class HUDManager : MonoBehaviour
             }
         }
     }
+
+    public void UpdateAbilitiesDisplay()
+    {
+        if (hud_abilities.time_warp)
+        {
+            hud_icons.display_hourglass();
+        }
+    }
 }
 
 public class Icons

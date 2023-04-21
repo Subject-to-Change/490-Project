@@ -443,6 +443,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8376167610175857653, guid: 76d81685555a6464b867d8b0989e955b,
+        type: 3}
+      propertyPath: m_text
+      value: End Level
+      objectReference: {fileID: 0}
     - target: {fileID: 8376167611444588411, guid: 76d81685555a6464b867d8b0989e955b,
         type: 3}
       propertyPath: m_Name
