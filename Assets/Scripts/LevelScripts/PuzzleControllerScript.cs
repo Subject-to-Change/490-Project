@@ -15,6 +15,9 @@ public class PuzzleControllerScript : MonoBehaviour
     public GameObject objectActive2;
     public GameObject objectActive3;
     public GameObject objectActive4;
+    public AudioClip puzzleFail;
+    public AudioClip puzzleFinish;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,7 @@ public class PuzzleControllerScript : MonoBehaviour
         solution[1] = 3;
         solution[2] = 4;
         solution[3] = 2;
+        audioSource = GameObject.Find("PuzzleSound").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -43,6 +47,7 @@ public class PuzzleControllerScript : MonoBehaviour
                 objectActive2.SetActive(true);
                 objectActive3.SetActive(true);
                 objectActive4.SetActive(true);
+                audioSource.PlayOneShot(puzzleFinish);
             }
             Array.Clear(order,0,order.Length);
             i = 0;
@@ -52,6 +57,7 @@ public class PuzzleControllerScript : MonoBehaviour
         {
 
             Array.Clear(order, 0, order.Length);
+            audioSource.PlayOneShot(puzzleFail);
             i = 0;
             Debug.Log("Clear reached");
         }
