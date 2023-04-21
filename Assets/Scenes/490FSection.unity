@@ -44595,7 +44595,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  - {fileID: -5269193952663052373, guid: 931f4261c76fead4ab72f302969fac90, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -44659,8 +44659,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press cntrl or press down on the left joystick to crouch!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 931f4261c76fead4ab72f302969fac90, type: 2}
+  m_sharedMaterial: {fileID: -5269193952663052373, guid: 931f4261c76fead4ab72f302969fac90,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -51045,7 +51046,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Now you can glide across the gap! Hold space after jumping to glide
+  m_text: Now you can glide across the gap! Hold jump after jumping to glide
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 931f4261c76fead4ab72f302969fac90, type: 2}
   m_sharedMaterial: {fileID: -5269193952663052373, guid: 931f4261c76fead4ab72f302969fac90,
